@@ -32,6 +32,6 @@ return p;
 }
 
 // Operate
-function operate(operator, a, b){
+ export default function operate(operator, a, b){
     return operator(a,b);
 }

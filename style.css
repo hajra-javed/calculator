@@ -1,0 +1,68 @@
+body{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: mistyrose;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    width: 300px;
+    height: 400px;
+    /* background-color: powderblue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /* gap: 10px; */
+    align-items: stretch;
+}
+
+.row{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: stretch;
+    flex: 1;
+    /* gap: 10px; */
+}
+
+.row > div{
+    height: 100%;
+    background-color: powderblue;
+    border: solid 1px white;
+    box-sizing: border-box;
+    flex-basis: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace;
+    font-size: xx-large;
+}
+
+.row > .operator{
+    background-color: palevioletred;
+} 
+
+.row > .screen{
+    flex: 1;
+    background-color: white;
+    border: solid 4px thistle;
+    color: dimgray;
+    justify-content: right;
+    font-size: xxx-large;
+}
+
+.row > .ac,
+.row > .zero{
+    flex-basis: 75%;
+}
+
+.row > .ac{
+    background-color: lightsteelblue;
+}
+
+.row > .equal{
+    background-color: lightgray;
+}
