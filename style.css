@@ -28,7 +28,7 @@ body{
     /* gap: 10px; */
 }
 
-.row > div{
+.row > div, .equal{
     height: 100%;
     background-color: powderblue;
     border: solid 1px white;
@@ -48,10 +48,10 @@ body{
 .row > .screen{
     flex: 1;
     background-color: white;
-    border: solid 4px thistle;
-    color: dimgray;
+    border: solid 4px grey;
+    color: cornflowerblue;
     justify-content: right;
-    font-size: xxx-large;
+    font-size: xx-large;
 }
 
 .row > .ac,
