@@ -5,11 +5,22 @@ body{
     padding: 0;
     background-color: mistyrose;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
 }
 
-.container{
+.header{
+    margin: 20px;
+    font-size: 35px;
+    font-family: monospace;
+}
+
+.footer{
+    margin: 20px;
+}
+
+.calculator{
     width: 300px;
     height: 400px;
     /* background-color: powderblue; */
@@ -68,3 +79,4 @@ body{
 .row > .equal{
     background-color: lightgray;
 }
+
