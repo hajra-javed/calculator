@@ -2,12 +2,13 @@
 const display = document.querySelector('.screen');
 const btns = {
     ac: document.querySelector('.ac'),
+    c: document.querySelector('.c'),
     digits: document.querySelectorAll('.digit'),
     operators: document.querySelectorAll('.operator'),
-    equal: document.querySelector('.equal'),
+    // point: document.querySelectorAll('.point'),
 };
 
-let [a, b, operator] = ['', '', ''];
+let [a, b, operator, lastEntered] = ['', '', '', ''];
 let expression = '';
 
 btns.ac.addEventListener('click', () => {
@@ -16,6 +17,29 @@ btns.ac.addEventListener('click', () => {
     b = '';
     expression = '';
     display.textContent = '';
+});
+
+btns.c.addEventListener('click', () => {
+    if (a != '' && operator == '') {
+        a = Math.floor(+a / 10);
+        if (a === 0) {
+            a = '';
+        }
+        expression = a;
+    } else if (operator != '' && b == ''){
+        operator = '';
+        expression = a;
+    } else if (b != ''){
+        b = Math.floor(+b / 10);
+        if (b === 0) {
+            b = '';
+        }
+        expression = a + ' ' + operator;
+    }
+    else {
+        return;
+    }
+    display.textContent = expression;
 })
 
 btns.digits.forEach(digit => {
@@ -39,31 +63,35 @@ btns.digits.forEach(digit => {
 btns.operators.forEach(o => {
     o.addEventListener('click', () => {
         if (a == '') {
-
+            return;
         } else if (a != '' && b == '') {
             operator = o.textContent
-            expression = a + ' ' + ' ' + operator;
+            expression = a + ' ' + operator;
         } else {
-            // console.log(typeof +a, typeof operator, typeof +b);
             a = operate(operator, a, b);
-            operator = o.textContent;
+            if (o.textContent == '=') {
+                operator = '';
+                expression = a;
+            } else {
+                operator = o.textContent;
+                expression = a + ' ' + operator;
+            }
             b = '';
-            expression = a + ' ' + ' ' + operator;
         }
 
         display.textContent = expression;
     });
 });
 
-btns.equal.addEventListener('click', () => {
-    if (a != '' && operator != '' && b != '') {
-        a = operate(operator, a, b);
-        operator = '';
-        b = '';
-        expression = a;
-    }
-    display.textContent = expression;
-});
+// btns.equal.addEventListener('click', () => {
+//     if (a != '' && operator != '' && b != '') {
+//         a = operate(operator, a, b);
+//         operator = '';
+//         b = '';
+//         expression = a;
+//     }
+//     display.textContent = expression;
+// });
 
 
 // Add
@@ -83,7 +111,7 @@ function multiply(a, b) {
 
 // Divide
 function divide(a, b) {
-    return Math.round((a / b) * 1000) / 1000;
+    return Math.round((a / b) * 100000) / 100000;
 }
 
 // Operate

@@ -28,7 +28,8 @@ body{
     /* gap: 10px; */
 }
 
-.row > div, .equal{
+.row > div,
+.point{
     height: 100%;
     background-color: powderblue;
     border: solid 1px white;
@@ -56,10 +57,11 @@ body{
 
 .row > .ac,
 .row > .zero{
-    flex-basis: 75%;
+    flex-basis: 50%;
 }
 
-.row > .ac{
+.row > .ac,
+.row > .c{
     background-color: lightsteelblue;
 }
 
