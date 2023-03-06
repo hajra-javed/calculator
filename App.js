@@ -5,36 +5,37 @@ const btns = {
     c: document.querySelector('.c'),
     digits: document.querySelectorAll('.digit'),
     operators: document.querySelectorAll('.operator'),
-    // point: document.querySelectorAll('.point'),
+    point: document.querySelector('.point'),
 };
 
-let [a, b, operator, lastEntered] = ['', '', '', ''];
+let [a, b, operator, aPoint, bPoint] = ['', '', '', false, false];
 let expression = '';
 
 btns.ac.addEventListener('click', () => {
-    a = '';
-    operator = '';
-    b = '';
+    [a, b, operator, aPoint, bPoint] = ['', '', '', false, false];
     expression = '';
     display.textContent = '';
 });
 
 btns.c.addEventListener('click', () => {
     if (a != '' && operator == '') {
-        a = Math.floor(+a / 10);
-        if (a === 0) {
-            a = '';
+        if (a[a.length-1] === '.'){
+            aPoint = false;
         }
+        a = a.slice(0, -1);
         expression = a;
-    } else if (operator != '' && b == ''){
+    } else if (operator != '' && b == '') {
         operator = '';
         expression = a;
-    } else if (b != ''){
-        b = Math.floor(+b / 10);
-        if (b === 0) {
+    } else if (b != '') {
+        if (b[b.length-1] === '.'){
+            bPoint = false;
+        }
+        b = b.slice(0, -1);
+        if (b.length == 0) {
             b = '';
         }
-        expression = a + ' ' + operator;
+        expression = a + ' ' + operator + (b.length ? (' ' + b) : '');
     }
     else {
         return;
@@ -62,12 +63,13 @@ btns.digits.forEach(digit => {
 
 btns.operators.forEach(o => {
     o.addEventListener('click', () => {
-        if (a == '') {
-            return;
-        } else if (a != '' && b == '') {
+        if (a != '' && b == '') {
+            if (o.textContent == '='){
+                return;
+            }
             operator = o.textContent
             expression = a + ' ' + operator;
-        } else {
+        } else if (a != '' && b != ''){
             a = operate(operator, a, b);
             if (o.textContent == '=') {
                 operator = '';
@@ -77,21 +79,42 @@ btns.operators.forEach(o => {
                 expression = a + ' ' + operator;
             }
             b = '';
+            if (+a === Math.round(+a)){
+                aPoint = false;
+            }
+            bPoint = false;
+        } else {
+            return;
         }
 
         display.textContent = expression;
     });
 });
 
-// btns.equal.addEventListener('click', () => {
-//     if (a != '' && operator != '' && b != '') {
-//         a = operate(operator, a, b);
-//         operator = '';
-//         b = '';
-//         expression = a;
-//     }
-//     display.textContent = expression;
-// });
+btns.point.addEventListener('click', () => {
+    if (a == '') {
+        a = '0.';
+        aPoint = true;
+        expression = a;
+    } else if (a != '' && operator == '') {
+        if (!aPoint) {
+            a = a + '.';
+            aPoint = true;
+            expression = a;
+        }
+    } else if (operator != '' && b == '') {
+        b = '0.';
+        bPoint = true;
+        expression = a + ' ' + operator + ' ' + b;
+    } else {
+        if (!bPoint) {
+            b = b + '.';
+            bPoint = true;
+            expression = a + ' ' + operator + ' ' + b;
+        }
+    }
+    display.textContent = expression;
+})
 
 
 // Add
@@ -106,12 +129,12 @@ function subtract(a, b) {
 
 // Multiply
 function multiply(a, b) {
-    return a * b;
+    return a*b;
 }
 
 // Divide
 function divide(a, b) {
-    return Math.round((a / b) * 100000) / 100000;
+    return a/b;
 }
 
 // Operate
@@ -126,5 +149,5 @@ function operate(operator, a, b) {
     } else {
         ans = divide(+a, +b);
     }
-    return ans;
+    return String(Math.round(ans*100000)/100000);
 }
